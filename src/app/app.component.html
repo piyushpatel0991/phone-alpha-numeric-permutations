@@ -1,0 +1,42 @@
+
+<!-- Toolbar -->
+<div class="content" role="main">
+
+  <div class="card-container">
+   <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="col-md-4">
+      <div class="form-group">
+        <label for="">Enter Phone number</label>
+        <input (keypress)="validate($event)" required type="text" formControlName="phoneNum"  class="form-control" placeholder="Enter Your phone Number" [ngClass]="{ 'is-invalid': submitted && f['phoneNum']?.errors }">
+        <div *ngIf="submitted && f['phoneNum'].errors" class="invalid-feedback">
+        <div *ngIf="f['phoneNum'].errors['required']">Phone number is required </div>
+       <div *ngIf="f['phoneNum'] && f['phoneNum']['errors'] && (f['phoneNum']['errors']['pattern'] || f['phoneNum'].errors['maxlength'] || f['phoneNum'].errors['minlength'])">Phone number must be at least 7 numbers or atmost 10  </div>
+      </div>
+      </div>
+      <input type="submit" class="mw-ui-btn" value="Submit" id ="button">
+      </div>
+    
+  </form>
+
+  <p>Total number of combinations <span class="totalCount" >{{totalCount}}</span></p>
+  <table class="table table-light table-sm">
+     <tbody>
+      <tr *ngFor="let item of numberList | paginate: { itemsPerPage: 10, currentPage: currentPage, totalItems: totalCount }">
+        <td>{{item}}</td>
+      </tr>
+
+    </tbody>
+  </table>        
+  <div class="row" *ngIf="displayList">
+      
+      <div class="col-md-9">
+        <pagination-controls (pageChange)=" onNextPage($event);"></pagination-controls>
+      </div>
+  </div> 
+  </div>
+
+
+</div>
+
+
+<router-outlet></router-outlet>
